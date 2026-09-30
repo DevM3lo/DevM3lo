@@ -17,6 +17,6 @@
 
 ```
 
-###👨🏻‍💻 Sobre mim
+### 👨🏻‍‍💻 Sobre mim
 
 Desenvolvedor Backend focado em criar soluções eficientes e arquiteturas escaláveis. Tenho experiência prática na construção de APIs corporativas seguras (utilizando o ecossistema Java e Spring) e no desenvolvimento de ferramentas modernas que integram Inteligência Artificial, LLMs locais e arquiteturas RAG (com Python e FastAPI). Estou em constante evolução, procurando sempre otimizar sistemas e aplicar as melhores práticas de engenharia de software.

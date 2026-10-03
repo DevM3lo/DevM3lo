@@ -8,11 +8,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
+          token: ${{ secrets.ACCESS_TOKEN }}
       - name: Get Python 3.8
         uses: actions/setup-python@v5
         with:
@@ -34,7 +37,7 @@ jobs:
         run: |-
           git add .
           git diff
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git commit -m "Updated README" -a || echo "No changes to commit"
           git push

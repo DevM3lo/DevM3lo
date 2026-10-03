@@ -75,10 +75,15 @@ def graph_repos_stars(count_type, owner_affiliation, cursor=None, add_loc=0, del
     variables = {'owner_affiliation': owner_affiliation, 'login': USER_NAME, 'cursor': cursor}
     request = simple_request(graph_repos_stars.__name__, query, variables)
     if request.status_code == 200:
+        user_data = request.json().get('data', {}).get('user')
+        if not user_data or not user_data.get('repositories'):
+            return 0 if count_type == 'repos' else 0
+        repos_data = user_data['repositories']
         if count_type == 'repos':
-            return request.json()['data']['user']['repositories']['totalCount']
+            return repos_data.get('totalCount', 0)
         elif count_type == 'stars':
-            return stars_counter(request.json()['data']['user']['repositories']['edges'])
+            edges = repos_data.get('edges')
+            return stars_counter(edges)
 
 
 def recursive_loc(owner, repo_name, data, cache_comment, addition_total=0, deletion_total=0, my_commits=0, cursor=None):
@@ -254,7 +259,11 @@ def force_close_file(data, cache_comment):
 
 def stars_counter(data):
     total_stars = 0
-    for node in data: total_stars += node['node']['stargazers']['totalCount']
+    if not data:
+        return 0
+    for node in data:
+        if node and node.get('node') and node['node'].get('stargazers'):
+            total_stars += node['node']['stargazers'].get('totalCount', 0)
     return total_stars
 
 
